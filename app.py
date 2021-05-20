@@ -4,6 +4,12 @@ from CVRP import VRP , CVRP
 
 app = Flask( __name__ )
 
+@app.route("/" , methods = [ 'GET' , 'POST' , 'PUT'])
+def home():
+	return jsonify( {'vCount' : 'Int' , 'depot' : '[[]]' , 'locations' : '[[]]' ,
+			'vCap' : '[]' , '(CVRP) damands' : '[]' } ) , 200
+
+
 @app.route("/vrp" , methods = ['POST' , 'PUT'])
 def vrp():
 	try :
@@ -14,6 +20,7 @@ def vrp():
 		return jsonify( res ) , 200
 	except :
 		return jsonify( {} ) , 400
+
 
 @app.route("/cvrp" , methods = ['POST' , 'PUT'])
 def cvrp():
