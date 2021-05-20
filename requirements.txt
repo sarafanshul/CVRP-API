@@ -1,0 +1,5 @@
+ortools
+numpy
+Flask-RESTful
+Flask
+gunicorn
