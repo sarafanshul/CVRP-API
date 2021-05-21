@@ -59,7 +59,7 @@ def binP():
 		return jsonify( {} ) , 412
 
 def main():
-	app.run( debug = 1 )
+	app.run( )
 
 if __name__ == '__main__':
 	main()
