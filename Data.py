@@ -1,6 +1,6 @@
 import numpy as np
 
-class Data :
+class DataCVRP :
     points = []
     depot = []
     num_vehicles = 0 
@@ -38,4 +38,25 @@ class Data :
         data['vehicle_capacities'] = self.vehicle_cap
         data['num_vehicles'] = self.num_vehicles
         data['depot'] = 0 # at idx 0 in locations
+        return data
+
+class DataBinPacking :
+    weights = []
+    values = []
+    bin_capacities = []
+
+    def __init__( self , _weights , _values , _bin_capacities ):
+        self.weights = _weights
+        self.values = _values
+        self.bin_capacities = _bin_capacities
+
+    def create_data_model(self):
+        data = {}
+        data['num_items'] = len( self.weights )
+        data['all_items'] = range( data['num_items'] )
+        data['weights'] = self.weights
+        data['values'] = self.values
+        data['bin_capacities'] = self.bin_capacities
+        data['num_bins'] = len( data['bin_capacities'] )
+        data['all_bins'] = range( data['num_bins'] )
         return data

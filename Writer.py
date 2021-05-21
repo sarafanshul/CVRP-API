@@ -47,3 +47,24 @@ class Writer:
             print(plan_output)
             max_route_distance = max(route_distance, max_route_distance)
         print('Maximum of the route distances: {}m'.format(max_route_distance))
+
+    def print_solutions_bin_packing(self ,data, solver, x):
+        """Display the solution."""
+        total_weight = 0
+        total_value = 0
+        for b in data['all_bins']:
+            print('Bin', b, '\n')
+            bin_weight = 0
+            bin_value = 0
+            for idx, val in enumerate(data['weights']):
+                if solver.Value(x[(idx, b)]) > 0:
+                    print('Item', idx, '-  Weight:', val, ' Value:',
+                          data['values'][idx])
+                    bin_weight += val
+                    bin_value += data['values'][idx]
+            print('Packed bin weight:', bin_weight)
+            print('Packed bin value:', bin_value, '\n')
+            total_weight += bin_weight
+            total_value += bin_value
+        print('Total packed weight:', total_weight)
+        print('Total packed value:', total_value)

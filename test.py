@@ -1,7 +1,7 @@
 import requests
 from flask import jsonify
 
-BASE = "http://127.0.0.1:5000/"
+BASE = "https://cvrp-api.herokuapp.com/"
 
 _locations = [[228, 0], [912, 0], [0, 80], [114, 80], [570, 160], [798, 160], [342, 240], [684, 240], [570, 400], [912, 400], [114, 480], [228, 480], [342, 560], [684, 560], [0, 640], [798, 640]]
 _depot = [[456, 320]] # location 0 - the depot

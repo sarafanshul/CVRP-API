@@ -1,12 +1,12 @@
 from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
-from Data import Data
+import Data
 from Writer import Writer
 
 class VRP :
     
     def __init__ ( self , _num_vehicles , _depot , _locations , _vehicle_cap , _demands ):
-        self.parser = Data( _num_vehicles , _depot , _locations , _vehicle_cap , _demands )
+        self.parser = Data.DataCVRP( _num_vehicles , _depot , _locations , _vehicle_cap , _demands )
         
     def parseSolution(self ,data, manager, routing, solution):
         """saves solution to dict"""
@@ -86,7 +86,7 @@ class VRP :
 class CVRP :
     
     def __init__ ( self , _num_vehicles , _depot , _locations , _vehicle_cap , _demands ):
-        self.parser = Data( _num_vehicles , _depot , _locations , _vehicle_cap , _demands )
+        self.parser = Data.DataCVRP( _num_vehicles , _depot , _locations , _vehicle_cap , _demands )
         
     def parseSolution(self ,data, manager, routing, solution):
         """saves solution to dict"""
@@ -172,8 +172,8 @@ def main():
     _demands = [0, 1, 1, 2, 4, 2, 4, 8, 8, 1, 2, 1, 2, 4, 4, 8, 8]
     _vehicle_cap = [15, 15, 15, 15]
     _num_vehicles = 4
-    solver = CVRP( _num_vehicles , _depot , _locations , _vehicle_cap , _demands )
-    print( solver.vrpNoConstraints( 2 ) )
+    solver = VRP( _num_vehicles , _depot , _locations , _vehicle_cap , _demands )
+    print( solver.vrpNoConstraints( 1 ) )
 
 if __name__ == '__main__':
     main()
