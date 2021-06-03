@@ -24,13 +24,17 @@ def home():
 def vrp():
 	try : values = request.json
 	except : return jsonify( {} ) , 406
+
 	try :
 		solver = VRP( values['vCount'] , values['depot'] , 
 			values['locations'] , values['vCap'] , [] )
 		res = solver.vrpNoConstraints( 1 )
-		return jsonify( res ) , 200
+
+		response = make_response( jsonify( res ) , 302 )
+		response.headers['Warning'] = "Deprecated API"
+		return response
 	except :
-		return jsonify( {} ) , 412
+		return make_response( jsonify( { } ) , 412 )
 
 
 @app.route("/cvrp" , methods = ['POST' , 'PUT'])
@@ -40,10 +44,13 @@ def cvrp():
 	try :
 		solver = CVRP( values['vCount'] , values['depot'] , 
 			values['locations'] , values['vCap'] , values['demands'] )
-		res = solver.cvrpConstrained( 1 )
-		return jsonify( res ) , 200
+
+		TIME_LIMIT = min( values.get("TIME_LIMIT" , 5) , 7 ) # max 7 sec per ops 
+		res = solver.cvrpConstrained( TIME_LIMIT )
+		response = make_response( jsonify( res ) , 200 )
+		return response
 	except : 
-		return jsonify( {} ) , 412
+		return make_response( jsonify( { } ) , 412 )
 
 @app.route("/binpacking" , methods = ['POST' , 'PUT'] )
 def binP():
@@ -59,7 +66,7 @@ def binP():
 		return jsonify( {} ) , 412
 
 def main():
-	app.run( )
+	app.run( threaded=True )
 
 if __name__ == '__main__':
 	main()

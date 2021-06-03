@@ -1,5 +1,8 @@
 import numpy as np
 
+def get_distance(p1 , p2 ): # manhattan distance , modify as per use
+        return abs( p1[0] - p2[0] ) + abs( p1[1] - p2[1] ) 
+
 class DataCVRP :
     points = []
     depot = []
@@ -17,28 +20,26 @@ class DataCVRP :
     def merge(self , a , b ):
         return a + b 
 
-    def get_distance(self , p1 , p2 ): # manhattan distance , modify as per use
-        return abs( p1[0] - p2[0] ) + abs( p1[1] - p2[1] ) 
-
-    def generate_distance_matrix(self , locations ):
+    def generate_distance_matrix(self , locations , F ):
         n = len(locations)
         res = np.zeros( shape = (n , n) )
         for i in range( n ):
             for j in range( n ):
-                if( i != j ): res[i][j] = self.get_distance( locations[i] , locations[j] )
+                if( i != j ): res[i][j] = F( locations[i] , locations[j] )
         return res 
 
-    def create_data_model(self):
+    def create_data_model(self , F = get_distance ):
         locations = self.merge( self.depot , self.points )
-        distance_matrix = self.generate_distance_matrix( locations )
+        distance_matrix = self.generate_distance_matrix( locations , F )
         
         data = {}
         data['distance_matrix'] = distance_matrix
-        data['demands'] = self.demands
+        data['demands'] = self.merge( [0] , self.demands)
         data['vehicle_capacities'] = self.vehicle_cap
         data['num_vehicles'] = self.num_vehicles
         data['depot'] = 0 # at idx 0 in locations
         return data
+
 
 class DataBinPacking :
     weights = []

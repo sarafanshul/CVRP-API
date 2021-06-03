@@ -1,15 +1,10 @@
-import requests
-from flask import jsonify
-
-
-import json
-
-BASE = "http://127.0.0.1:5000/"
-LONG_TO_FLOAT_CONST = 1000000
+import json 
 import random
+from CVRP import CVRP
+
+LONG_TO_FLOAT_CONST = 1000000
 
 def main():
-	random.seed(177013)
 	latlng = []
 	with open( "in.json" , "r" ) as F :
 		data = json.load(F)
@@ -24,12 +19,9 @@ def main():
 	_num_vehicles = 10
 	_vehicle_cap = [ random.randint(10 , 20) for _ in range( _num_vehicles ) ]
 
-	res = {"vCount" : _num_vehicles , "depot" : _depot , 
-		"locations" : _locations , "vCap" : _vehicle_cap ,
-		"demands" : _demands , "TIME_LIMIT" : 7}
+	solver = CVRP( _num_vehicles , _depot , _locations , _vehicle_cap , _demands )
+	print( solver.cvrpConstrained( 7 ) )
 
-	response = requests.post( BASE + "cvrp" , json = res )
-	print( response.json() ) 
 
 if __name__ == '__main__':
 	main()
